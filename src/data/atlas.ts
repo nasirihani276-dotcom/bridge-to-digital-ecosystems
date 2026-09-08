@@ -16,7 +16,7 @@ export const sectors: Sector[] = [
       "درگاه‌های پرداخت، کیف پول‌ها، اعتبارسنجی و بانکداری باز؛ متراکم‌ترین خوشهٔ اطلس.",
     nodes: 412,
     share: 92,
-    growth: "+۱۸٪",
+    growth: "۱۸٪ ↑",
     tone: "brand",
   },
   {
@@ -26,7 +26,7 @@ export const sectors: Sector[] = [
       "بازارگاه‌ها، فروشگاه‌سازها، سرویس‌های تخفیف و زیرساخت‌های فروش آنلاین.",
     nodes: 508,
     share: 100,
-    growth: "+۱۱٪",
+    growth: "۱۱٪ ↑",
     tone: "brand",
   },
   {
@@ -36,7 +36,7 @@ export const sectors: Sector[] = [
       "مدل‌های زبانی فارسی، بینایی ماشین، سکوهای داده و ابزارهای تحلیل کسب‌وکار.",
     nodes: 265,
     share: 61,
-    growth: "+۴۳٪",
+    growth: "۴۳٪ ↑",
     tone: "teal",
   },
   {
@@ -45,7 +45,7 @@ export const sectors: Sector[] = [
     summary: "پست خصوصی، تحویل درون‌شهری، انبارداری هوشمند و مدیریت ناوگان.",
     nodes: 179,
     share: 44,
-    growth: "+۹٪",
+    growth: "۹٪ ↑",
     tone: "brand",
   },
   {
@@ -54,7 +54,7 @@ export const sectors: Sector[] = [
     summary: "استودیوهای بازی، سکوهای پخش ویدیو و موسیقی، و اقتصاد محتوا.",
     nodes: 143,
     share: 36,
-    growth: "+۱۵٪",
+    growth: "۱۵٪ ↑",
     tone: "gold",
   },
   {
@@ -63,7 +63,7 @@ export const sectors: Sector[] = [
     summary: "نوبت‌دهی، ویزیت آنلاین، دارورسانی و پرونده‌های سلامت الکترونیک.",
     nodes: 121,
     share: 30,
-    growth: "+۲۲٪",
+    growth: "۲۲٪ ↑",
     tone: "teal",
   },
 ];
