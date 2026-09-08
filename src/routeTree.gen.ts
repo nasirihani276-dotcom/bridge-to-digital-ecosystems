@@ -10,7 +10,9 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as EcosystemsRouteImport } from './routes/ecosystems'
+import { Route as InsightsRouteImport } from './routes/insights'
 import { Route as PlayersRouteImport } from './routes/players'
 
 const IndexRoute = IndexRouteImport.update({
@@ -18,9 +20,19 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EcosystemsRoute = EcosystemsRouteImport.update({
   id: '/ecosystems',
   path: '/ecosystems',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InsightsRoute = InsightsRouteImport.update({
+  id: '/insights',
+  path: '/insights',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PlayersRoute = PlayersRouteImport.update({
@@ -31,31 +43,39 @@ const PlayersRoute = PlayersRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/ecosystems': typeof EcosystemsRoute
+  '/insights': typeof InsightsRoute
   '/players': typeof PlayersRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/ecosystems': typeof EcosystemsRoute
+  '/insights': typeof InsightsRoute
   '/players': typeof PlayersRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/ecosystems': typeof EcosystemsRoute
+  '/insights': typeof InsightsRoute
   '/players': typeof PlayersRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/ecosystems' | '/players'
+  fullPaths: '/' | '/about' | '/ecosystems' | '/insights' | '/players'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/ecosystems' | '/players'
-  id: '__root__' | '/' | '/ecosystems' | '/players'
+  to: '/' | '/about' | '/ecosystems' | '/insights' | '/players'
+  id: '__root__' | '/' | '/about' | '/ecosystems' | '/insights' | '/players'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
   EcosystemsRoute: typeof EcosystemsRoute
+  InsightsRoute: typeof InsightsRoute
   PlayersRoute: typeof PlayersRoute
 }
 
@@ -68,11 +88,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/ecosystems': {
       id: '/ecosystems'
       path: '/ecosystems'
       fullPath: '/ecosystems'
       preLoaderRoute: typeof EcosystemsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/insights': {
+      id: '/insights'
+      path: '/insights'
+      fullPath: '/insights'
+      preLoaderRoute: typeof InsightsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/players': {
@@ -87,7 +121,9 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
   EcosystemsRoute: EcosystemsRoute,
+  InsightsRoute: InsightsRoute,
   PlayersRoute: PlayersRoute,
 }
 export const routeTree = rootRouteImport
