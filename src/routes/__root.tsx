@@ -77,19 +77,36 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "پل — اطلس اکوسیستم‌های اقتصاد دیجیتال" },
+      {
+        name: "description",
+        content:
+          "پل، اطلس زندهٔ اکوسیستم‌های اقتصاد دیجیتال است؛ نقشه‌ای از بازیگران، جریان سرمایه و پیوندهای میان فین‌تک، تجارت الکترونیک، هوش مصنوعی و دیگر عرصه‌ها.",
+      },
+      { property: "og:title", content: "پل — اطلس اکوسیستم‌های اقتصاد دیجیتال" },
+      {
+        property: "og:description",
+        content:
+          "نقشهٔ زندهٔ اکوسیستم‌های اقتصاد دیجیتال؛ بازیگران، سرمایه و پیوندها در یک نگاه.",
+      },
       { property: "og:type", content: "website" },
+      { property: "og:locale", content: "fa_IR" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
       {
         rel: "stylesheet",
         href: appCss,
+      },
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      {
+        rel: "preconnect",
+        href: "https://fonts.gstatic.com",
+        crossOrigin: "anonymous",
+      },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap",
       },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
     ],
