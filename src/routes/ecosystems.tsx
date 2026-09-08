@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { NetworkMap } from "@/components/atlas/NetworkMap";
 import { sectors } from "@/data/atlas";
+import { fa } from "@/lib/utils";
 
 export const Route = createFileRoute("/ecosystems")({
   head: () => ({
@@ -63,7 +64,7 @@ function EcosystemsPage() {
               }`}
             >
               <span className="font-number text-3xl font-black text-brand-soft">
-                {String(i + 1).padStart(2, "0")}
+                {fa(String(i + 1).padStart(2, "0"))}
               </span>
               <div>
                 <h2 className="text-xl font-extrabold">{sector.name}</h2>
@@ -80,7 +81,7 @@ function EcosystemsPage() {
               <div className="flex gap-8 sm:flex-col sm:gap-3 sm:text-left">
                 <div>
                   <div className="font-number text-2xl font-black">
-                    {sector.nodes}
+                    {fa(sector.nodes)}
                   </div>
                   <p className="text-[11px] text-muted-foreground">بنگاه</p>
                 </div>

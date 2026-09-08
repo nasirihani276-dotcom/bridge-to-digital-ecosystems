@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { NetworkMap } from "@/components/atlas/NetworkMap";
 import { headlineStats, players, sectors } from "@/data/atlas";
+import { fa } from "@/lib/utils";
 
 const toneRing: Record<string, string> = {
   brand: "bg-brand-soft text-brand",
@@ -162,7 +163,7 @@ function HomePage() {
                     {sector.growth}
                   </span>
                   <span className="font-number text-sm font-semibold text-muted-foreground">
-                    {sector.nodes} بنگاه
+                    {fa(sector.nodes)} بنگاه
                   </span>
                 </div>
                 <h3 className="mt-5 text-lg font-extrabold">{sector.name}</h3>

@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { headlineStats, sectors } from "@/data/atlas";
+import { fa } from "@/lib/utils";
 
 export const Route = createFileRoute("/insights")({
   head: () => ({
@@ -81,7 +82,7 @@ function InsightsPage() {
             {quarterly.map((q) => (
               <div key={q.q} className="flex flex-1 flex-col items-center gap-3">
                 <span className="font-number text-xs font-bold text-brand">
-                  {q.value}
+                  {fa(q.value)}
                 </span>
                 <div
                   className="w-full rounded-t-lg bg-gradient-brand transition-all duration-700"
@@ -106,7 +107,7 @@ function InsightsPage() {
                 <div className="flex items-center justify-between text-sm font-semibold">
                   <span>{s.name}</span>
                   <span className="font-number text-muted-foreground">
-                    {s.nodes}
+                    {fa(s.nodes)}
                   </span>
                 </div>
                 <div className="mt-2 h-2 overflow-hidden rounded-full bg-secondary">
