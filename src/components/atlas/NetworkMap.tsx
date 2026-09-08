@@ -55,10 +55,10 @@ export function NetworkMap() {
         {edges.map(([a, b], i) => (
           <line
             key={i}
-            x1={nodes[a].x}
-            y1={nodes[a].y}
-            x2={nodes[b].x}
-            y2={nodes[b].y}
+            x1={nodes[a]!.x}
+            y1={nodes[a]!.y}
+            x2={nodes[b]!.x}
+            y2={nodes[b]!.y}
             stroke="var(--brand-glow)"
             strokeOpacity="0.55"
             className="animate-dash-flow"
