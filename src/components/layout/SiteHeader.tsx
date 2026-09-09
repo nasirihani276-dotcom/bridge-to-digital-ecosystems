@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Logo } from "@/components/brand/Logo";
+import { useSession } from "@/hooks/use-session";
 import { cn } from "@/lib/utils";
 
 const nav = [
@@ -13,6 +14,7 @@ const nav = [
 export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const { session } = useSession();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -51,6 +53,12 @@ export function SiteHeader() {
 
         <div className="flex items-center gap-2">
           <Link
+            to="/auth"
+            className="hidden rounded-xl border border-border px-4 py-2.5 text-sm font-bold text-foreground transition-colors hover:bg-secondary sm:inline-flex"
+          >
+            {session ? "حساب من" : "ورود / ثبت‌نام"}
+          </Link>
+          <Link
             to="/ecosystems"
             className="hidden rounded-xl bg-gradient-brand px-4 py-2.5 text-sm font-bold text-primary-foreground shadow-[0_10px_24px_-12px_var(--brand)] transition-transform duration-300 hover:-translate-y-0.5 sm:inline-flex"
           >
@@ -87,6 +95,13 @@ export function SiteHeader() {
               {item.label}
             </Link>
           ))}
+          <Link
+            to="/auth"
+            onClick={() => setOpen(false)}
+            className="mt-1 block rounded-lg px-3 py-2.5 text-sm font-semibold text-muted-foreground hover:bg-secondary hover:text-foreground"
+          >
+            {session ? "حساب من" : "ورود / ثبت‌نام"}
+          </Link>
         </nav>
       )}
     </header>

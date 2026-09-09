@@ -1,34 +1,22 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { NetworkMap } from "@/components/atlas/NetworkMap";
-import { headlineStats, players, sectors } from "@/data/atlas";
+import { ecosystems } from "@/data/ecosystems";
+import { allCompanies, getCompanyCount, getCategoryName } from "@/data/companies";
 import { fa } from "@/lib/utils";
-
-const toneRing: Record<string, string> = {
-  brand: "bg-brand-soft text-brand",
-  gold: "bg-gold/15 text-[color:var(--gold)]",
-  teal: "bg-teal/15 text-[color:var(--teal)]",
-};
-
-const toneBar: Record<string, string> = {
-  brand: "bg-gradient-brand",
-  gold: "bg-[color:var(--gold)]",
-  teal: "bg-[color:var(--teal)]",
-};
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "پل | اطلس زیست‌بوم اقتصاد دیجیتال ایران" },
+      { title: "پل | اطلس اکوسیستم‌های اقتصاد دیجیتال ایران" },
       {
         name: "description",
         content:
-          "پل، سامانهٔ جامع دادهٔ زیست‌بوم اقتصاد دیجیتال ایران است: نقشهٔ زندهٔ فین‌تک، تجارت الکترونیک، هوش مصنوعی، لجستیک و سلامت دیجیتال به همراه شاخص‌ها و بازیگران کلیدی.",
+          "پل، اطلس داده‌های اکوسیستم‌های اقتصاد دیجیتال ایران است: طلا، رمزارز، بیمه، هوش مصنوعی، سرمایه‌گذاری خطرپذیر و صنایع خلاق، همراه با پروفایل هر بنگاه.",
       },
-      { property: "og:title", content: "پل | اطلس زیست‌بوم اقتصاد دیجیتال ایران" },
+      { property: "og:title", content: "پل | اطلس اکوسیستم‌های اقتصاد دیجیتال ایران" },
       {
         property: "og:description",
-        content:
-          "نقشهٔ زندهٔ بنگاه‌ها، سرمایه و پیوندهای اقتصاد دیجیتال ایران در یک اطلس واحد.",
+        content: "پروفایل بنگاه‌های اکوسیستم‌های اقتصاد دیجیتال ایران در یک اطلس واحد.",
       },
     ],
     scripts: [
@@ -41,13 +29,16 @@ export const Route = createFileRoute("/")({
           alternateName: "اطلس اکوسیستم‌های اقتصاد دیجیتال",
           inLanguage: "fa-IR",
           description:
-            "سامانهٔ جامع داده‌های زیست‌بوم اقتصاد دیجیتال ایران؛ نقشهٔ بنگاه‌ها، سرمایه و پیوندها.",
+            "اطلس داده‌های اکوسیستم‌های اقتصاد دیجیتال ایران؛ پروفایل بنگاه‌ها به تفکیک عرصه.",
         }),
       },
     ],
   }),
   component: HomePage,
 });
+
+const publishedEcosystems = ecosystems.filter((e) => getCompanyCount(e.slug) > 0);
+const featuredCompanies = allCompanies.slice(0, 6);
 
 function HomePage() {
   return (
@@ -68,19 +59,18 @@ function HomePage() {
           <div className="animate-rise-in">
             <span className="inline-flex items-center gap-2 rounded-full border border-ink-foreground/15 bg-ink-foreground/5 px-3.5 py-1.5 text-xs font-semibold text-ink-muted backdrop-blur">
               <span className="size-1.5 rounded-full bg-[color:var(--teal)]" />
-              نسخهٔ ۱٫۴ · به‌روزرسانی هفتگی داده‌ها
+              اطلس در حال ساخت است · عرصهٔ طلا نخستین مجموعهٔ منتشرشده
             </span>
 
             <h1 className="mt-7 text-4xl font-black leading-[1.15] tracking-tight sm:text-5xl lg:text-[3.4rem]">
-              اطلس زیست‌بوم
+              اطلس اکوسیستم‌های
               <br />
               <span className="text-gradient-brand">اقتصاد دیجیتال ایران</span>
             </h1>
 
             <p className="mt-6 max-w-xl text-base leading-8 text-ink-muted sm:text-lg">
-              پل به‌جای فهرست کردن سادهٔ شرکت‌ها، جریان‌ها را ترسیم می‌کند: سرمایه
-              از کجا می‌آید، داده کجا جابه‌جا می‌شود و کدام پیوندها هنوز ساخته
-              نشده‌اند.
+              پل هر عرصه از اقتصاد دیجیتال را به‌صورت جداگانه نقشه‌برداری می‌کند: نام بنگاه‌ها،
+              نشانی رسمی و شرح فعالیت آن‌ها، به‌همراه مشخصات ثبتی و حقوقی برای کاربران عضو.
             </p>
 
             <div className="mt-9 flex flex-wrap gap-3">
@@ -91,10 +81,10 @@ function HomePage() {
                 کاوش در نقشهٔ اکوسیستم
               </Link>
               <Link
-                to="/insights"
+                to="/players"
                 className="rounded-xl border border-ink-foreground/20 px-6 py-3.5 text-sm font-bold text-ink-foreground transition-colors hover:bg-ink-foreground/10"
               >
-                مشاهدهٔ شاخص‌ها
+                فهرست بنگاه‌ها
               </Link>
             </div>
           </div>
@@ -102,10 +92,10 @@ function HomePage() {
           <div className="animate-float-slow">
             <div className="rounded-3xl border border-ink-foreground/12 bg-ink-foreground/[0.04] p-4 backdrop-blur-xl">
               <div className="flex items-center justify-between px-2 pb-3 text-xs font-semibold text-ink-muted">
-                <span>نمای زندهٔ شبکه</span>
+                <span>عرصه‌های اطلس</span>
                 <span className="flex items-center gap-1.5">
                   <span className="size-1.5 animate-node-pulse rounded-full bg-[color:var(--teal)]" />
-                  متصل
+                  ۶ عرصه
                 </span>
               </div>
               <div className="aspect-[4/3] w-full">
@@ -115,69 +105,85 @@ function HomePage() {
           </div>
         </div>
 
-        {/* stat strip */}
+        {/* stat strip — real counts only */}
         <div className="relative border-t border-ink-foreground/10">
           <dl className="mx-auto grid max-w-6xl grid-cols-2 gap-px px-5 md:grid-cols-4">
-            {headlineStats.map((s) => (
-              <div key={s.label} className="px-2 py-7">
-                <dt className="text-xs font-semibold text-ink-muted">
-                  {s.label}
-                </dt>
-                <dd className="font-number mt-2 text-3xl font-black text-ink-foreground">
-                  {s.value}
-                </dd>
-                <p className="mt-1.5 text-[11px] text-ink-muted">{s.note}</p>
-              </div>
-            ))}
+            <div className="px-2 py-7">
+              <dt className="text-xs font-semibold text-ink-muted">بنگاه ثبت‌شده</dt>
+              <dd className="font-number mt-2 text-3xl font-black text-ink-foreground">
+                {fa(allCompanies.length)}
+              </dd>
+              <p className="mt-1.5 text-[11px] text-ink-muted">در عرصهٔ منتشرشده</p>
+            </div>
+            <div className="px-2 py-7">
+              <dt className="text-xs font-semibold text-ink-muted">عرصهٔ در دست ساخت</dt>
+              <dd className="font-number mt-2 text-3xl font-black text-ink-foreground">
+                {fa(ecosystems.length)}
+              </dd>
+              <p className="mt-1.5 text-[11px] text-ink-muted">طلا، رمزارز، بیمه و…</p>
+            </div>
+            <div className="px-2 py-7">
+              <dt className="text-xs font-semibold text-ink-muted">عرصهٔ منتشرشده</dt>
+              <dd className="font-number mt-2 text-3xl font-black text-ink-foreground">
+                {fa(publishedEcosystems.length)}
+              </dd>
+              <p className="mt-1.5 text-[11px] text-ink-muted">با پروفایل کامل بنگاه‌ها</p>
+            </div>
+            <div className="px-2 py-7">
+              <dt className="text-xs font-semibold text-ink-muted">دسترسی به دادهٔ حقوقی</dt>
+              <dd className="font-number mt-2 text-3xl font-black text-ink-foreground">عضویت</dd>
+              <p className="mt-1.5 text-[11px] text-ink-muted">پس از ثبت‌نام رایگان</p>
+            </div>
           </dl>
         </div>
       </section>
 
-      {/* SECTORS */}
+      {/* ECOSYSTEMS */}
       <section className="atlas-grid relative">
         <div className="mx-auto max-w-6xl px-5 py-20">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
-              <p className="text-xs font-bold tracking-[0.2em] text-brand">
-                ۰۱ / عرصه‌ها
-              </p>
+              <p className="text-xs font-bold tracking-[0.2em] text-brand">۰۱ / عرصه‌ها</p>
               <h2 className="mt-3 max-w-lg text-3xl font-black leading-tight sm:text-4xl">
-                شش قارهٔ اقتصاد دیجیتال
+                شش عرصهٔ اقتصاد دیجیتال
               </h2>
             </div>
-            <Link
-              to="/ecosystems"
-              className="text-sm font-bold text-brand hover:underline"
-            >
+            <Link to="/ecosystems" className="text-sm font-bold text-brand hover:underline">
               مشاهدهٔ همهٔ عرصه‌ها ←
             </Link>
           </div>
 
           <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {sectors.map((sector) => (
-              <article key={sector.slug} className="surface-card p-6">
-                <div className="flex items-center justify-between">
-                  <span
-                    className={`rounded-full px-3 py-1 text-xs font-bold ${toneRing[sector.tone]}`}
-                  >
-                    {sector.growth}
-                  </span>
-                  <span className="font-number text-sm font-semibold text-muted-foreground">
-                    {fa(sector.nodes)} بنگاه
-                  </span>
-                </div>
-                <h3 className="mt-5 text-lg font-extrabold">{sector.name}</h3>
-                <p className="mt-2.5 text-sm leading-7 text-muted-foreground">
-                  {sector.summary}
-                </p>
-                <div className="mt-6 h-1.5 overflow-hidden rounded-full bg-secondary">
-                  <div
-                    className={`h-full rounded-full ${toneBar[sector.tone]}`}
-                    style={{ width: `${sector.share}%` }}
-                  />
-                </div>
-              </article>
-            ))}
+            {ecosystems.map((eco) => {
+              const count = getCompanyCount(eco.slug);
+              return (
+                <Link
+                  key={eco.slug}
+                  to={count > 0 ? "/ecosystems/$slug" : "/ecosystems"}
+                  params={count > 0 ? { slug: eco.slug } : undefined}
+                  className="surface-card block p-6"
+                >
+                  <div className="flex items-center justify-between">
+                    <span
+                      className={
+                        count > 0
+                          ? "rounded-full bg-brand-soft px-3 py-1 text-xs font-bold text-brand"
+                          : "rounded-full border border-border px-3 py-1 text-xs font-bold text-muted-foreground"
+                      }
+                    >
+                      {count > 0 ? "منتشرشده" : "به‌زودی"}
+                    </span>
+                    {count > 0 && (
+                      <span className="font-number text-sm font-semibold text-muted-foreground">
+                        {fa(count)} بنگاه
+                      </span>
+                    )}
+                  </div>
+                  <h3 className="mt-5 text-lg font-extrabold">{eco.name}</h3>
+                  <p className="mt-2.5 text-sm leading-7 text-muted-foreground">{eco.summary}</p>
+                </Link>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -186,22 +192,20 @@ function HomePage() {
       <section className="mx-auto max-w-6xl px-5 pb-20">
         <div className="grid overflow-hidden rounded-3xl border border-border bg-card md:grid-cols-2">
           <div className="p-8 sm:p-12">
-            <p className="text-xs font-bold tracking-[0.2em] text-brand">
-              ۰۲ / چرا پل
-            </p>
+            <p className="text-xs font-bold tracking-[0.2em] text-brand">۰۲ / چرا پل</p>
             <h2 className="mt-4 text-3xl font-black leading-tight">
-              پل‌ها را ببینید، نه فقط جزیره‌ها را
+              یک پروفایل استاندارد برای هر بنگاه
             </h2>
             <p className="mt-5 text-sm leading-8 text-muted-foreground">
-              نام «پل» تصادفی نیست: ارزش اقتصاد دیجیتال در پیوندهاست، نه در
-              فهرست بنگاه‌ها. اطلس پل هر رابطهٔ سرمایه‌گذاری، شراکت فنی و جریان
-              داده را ثبت می‌کند تا بتوانید ساختار واقعی بازار را بخوانید.
+              پل به‌جای آمار کلی، پروفایل مستقل هر بنگاه را ثبت می‌کند: نام، نشانی رسمی، دسته‌بندی
+              فعالیت و شرح آن. مشخصات ثبتی و حقوقی هر بنگاه در لایه‌ای جداگانه و فقط برای کاربران
+              عضو در دسترس است.
             </p>
             <ul className="mt-7 space-y-3.5 text-sm font-medium">
               {[
-                "پروفایل استاندارد برای هر بنگاه با منبع‌دهی شفاف",
-                "نگاشت پیوندها میان سرمایه‌گذار، استارتاپ و نهاد",
-                "شاخص‌های قابل مقایسه در بازه‌های زمانی",
+                "پروفایل عمومی هر بنگاه با نام، نشانی و شرح فعالیت",
+                "مشخصات ثبتی و حقوقی، محدود به کاربران ثبت‌نام‌کرده",
+                "انتشار تدریجی عرصه‌ها به‌محض تکمیل داده‌های هرکدام",
               ].map((item) => (
                 <li key={item} className="flex items-start gap-3">
                   <span className="mt-1.5 size-2 shrink-0 rounded-full bg-gradient-brand" />
@@ -214,21 +218,21 @@ function HomePage() {
             <div className="atlas-dots absolute inset-0 opacity-40" />
             <div className="relative flex h-full flex-col justify-between gap-8">
               <blockquote className="text-lg font-bold leading-9 text-ink-foreground">
-                «اقتصاد دیجیتال یک فهرست نیست؛ یک شبکه است. تا وقتی پیوندها را
-                نبینیم، فقط نقطه‌ها را شمرده‌ایم.»
+                «هدف پل فهرست کردن نیست؛ ساختن یک مرجع قابل اتکا برای هر عرصه، یکی پس از دیگری
+                است.»
               </blockquote>
               <div className="grid grid-cols-2 gap-6">
                 <div>
                   <div className="font-number text-3xl font-black text-ink-foreground">
-                    ۳٬۹۲۰
+                    {fa(allCompanies.length)}
                   </div>
-                  <p className="mt-1 text-xs text-ink-muted">پیوند ثبت‌شده</p>
+                  <p className="mt-1 text-xs text-ink-muted">پروفایل منتشرشده</p>
                 </div>
                 <div>
                   <div className="font-number text-3xl font-black text-ink-foreground">
-                    ۲۷
+                    {fa(ecosystems.length - publishedEcosystems.length)}
                   </div>
-                  <p className="mt-1 text-xs text-ink-muted">منبع دادهٔ مستقل</p>
+                  <p className="mt-1 text-xs text-ink-muted">عرصهٔ در دست گردآوری</p>
                 </div>
               </div>
             </div>
@@ -236,44 +240,35 @@ function HomePage() {
         </div>
       </section>
 
-      {/* PLAYERS */}
-      <section className="border-y border-border bg-secondary/40">
-        <div className="mx-auto max-w-6xl px-5 py-20">
-          <p className="text-xs font-bold tracking-[0.2em] text-brand">
-            ۰۳ / بازیگران
-          </p>
-          <h2 className="mt-3 text-3xl font-black sm:text-4xl">
-            گره‌های کلیدی اطلس
-          </h2>
+      {/* FEATURED COMPANIES */}
+      {featuredCompanies.length > 0 && (
+        <section className="border-y border-border bg-secondary/40">
+          <div className="mx-auto max-w-6xl px-5 py-20">
+            <p className="text-xs font-bold tracking-[0.2em] text-brand">۰۳ / بنگاه‌ها</p>
+            <h2 className="mt-3 text-3xl font-black sm:text-4xl">نمونه‌ای از پروفایل‌های اطلس</h2>
 
-          <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {players.slice(0, 6).map((p) => (
-              <article key={p.name} className="surface-card p-6">
-                <div className="flex items-start justify-between gap-3">
-                  <span
-                    className={`grid size-12 place-items-center rounded-2xl text-lg font-black ${toneRing[p.tone]}`}
-                    aria-hidden="true"
-                  >
-                    {p.initial}
-                  </span>
+            <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+              {featuredCompanies.map((c) => (
+                <Link
+                  key={c.slug}
+                  to="/companies/$slug"
+                  params={{ slug: c.slug }}
+                  className="surface-card block p-6"
+                >
                   <span className="rounded-full border border-border px-2.5 py-1 text-[11px] font-semibold text-muted-foreground">
-                    {p.stage}
+                    {getCategoryName(c.ecosystem, c.category)}
                   </span>
-                </div>
-                <h3 className="mt-5 text-lg font-extrabold">{p.name}</h3>
-                <p className="text-xs font-semibold text-brand">{p.sector}</p>
-                <p className="mt-3 text-sm leading-7 text-muted-foreground">
-                  {p.description}
-                </p>
-                <div className="mt-5 flex items-center justify-between border-t border-border pt-4 text-xs">
-                  <span className="text-muted-foreground">{p.metricLabel}</span>
-                  <span className="font-number font-bold">{p.metricValue}</span>
-                </div>
-              </article>
-            ))}
+                  <h3 className="mt-5 text-lg font-extrabold">{c.name}</h3>
+                  <p className="mt-3 text-sm leading-7 text-muted-foreground">{c.summary}</p>
+                  <div className="mt-5 border-t border-border pt-4 text-xs text-muted-foreground">
+                    {c.domain}
+                  </div>
+                </Link>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* CTA */}
       <section className="mx-auto max-w-6xl px-5 py-20">
@@ -284,8 +279,8 @@ function HomePage() {
               بنگاه خود را روی نقشه ثبت کنید
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-sm leading-8 text-primary-foreground/85">
-              اگر در یکی از عرصه‌های اقتصاد دیجیتال فعالیت می‌کنید، پروفایل خود
-              را به اطلس اضافه کنید تا در نقشهٔ پیوندها دیده شوید.
+              اگر در یکی از عرصه‌های اقتصاد دیجیتال فعالیت می‌کنید، اطلاعات خود را برای ما بفرستید
+              تا پس از راستی‌آزمایی، پروفایلتان در اطلس منتشر شود.
             </p>
             <Link
               to="/about"

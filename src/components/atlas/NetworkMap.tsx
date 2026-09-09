@@ -1,10 +1,10 @@
 const nodes = [
-  { x: 82, y: 74, r: 9, label: "فین‌تک", tone: "var(--brand-glow)", delay: 0 },
+  { x: 82, y: 74, r: 9, label: "طلا", tone: "var(--gold)", delay: 0 },
   { x: 232, y: 46, r: 7, label: "هوش مصنوعی", tone: "var(--teal)", delay: 0.6 },
-  { x: 352, y: 108, r: 8, label: "تجارت", tone: "var(--brand-glow)", delay: 1.1 },
-  { x: 300, y: 232, r: 7, label: "بازی", tone: "var(--gold)", delay: 1.6 },
-  { x: 128, y: 244, r: 8, label: "لجستیک", tone: "var(--brand-glow)", delay: 0.9 },
-  { x: 46, y: 176, r: 6, label: "سلامت", tone: "var(--teal)", delay: 1.9 },
+  { x: 352, y: 108, r: 8, label: "رمزارز", tone: "var(--brand-glow)", delay: 1.1 },
+  { x: 300, y: 232, r: 7, label: "صنایع خلاق", tone: "var(--brand-glow)", delay: 1.6 },
+  { x: 128, y: 244, r: 8, label: "خطرپذیر", tone: "var(--brand-glow)", delay: 0.9 },
+  { x: 46, y: 176, r: 6, label: "بیمه", tone: "var(--teal)", delay: 1.9 },
 ];
 
 const edges: [number, number][] = [

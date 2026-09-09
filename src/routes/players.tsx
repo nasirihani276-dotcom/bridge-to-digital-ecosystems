@@ -1,106 +1,152 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { players } from "@/data/atlas";
+import { z } from "zod";
+import { ecosystems } from "@/data/ecosystems";
+import { getCompaniesByEcosystem, getCategoriesFor } from "@/data/companies";
+
+const searchSchema = z.object({
+  ecosystem: z.string().optional(),
+});
 
 export const Route = createFileRoute("/players")({
+  validateSearch: searchSchema,
   head: () => ({
     meta: [
       { title: "بازیگران اکوسیستم | اطلس پل" },
       {
         name: "description",
         content:
-          "پروفایل بنگاه‌های کلیدی اقتصاد دیجیتال ایران در اطلس پل؛ حوزهٔ فعالیت، مرحلهٔ رشد و شاخص عملکردی هر بازیگر در یک فهرست قابل فیلتر.",
+          "پروفایل بنگاه‌های اکوسیستم‌های اقتصاد دیجیتال ایران در اطلس پل؛ نام، نشانی رسمی و دسته‌بندی فعالیت هر بنگاه، قابل فیلتر بر اساس عرصه و دسته.",
       },
       { property: "og:title", content: "بازیگران اکوسیستم | اطلس پل" },
       {
         property: "og:description",
-        content:
-          "فهرست قابل فیلتر بنگاه‌های کلیدی اقتصاد دیجیتال ایران با شاخص‌های عملکردی.",
+        content: "فهرست قابل فیلتر بنگاه‌های اکوسیستم‌های اقتصاد دیجیتال ایران.",
       },
     ],
   }),
   component: PlayersPage,
 });
 
-const toneRing: Record<string, string> = {
-  brand: "bg-brand-soft text-brand",
-  gold: "bg-gold/15 text-[color:var(--gold)]",
-  teal: "bg-teal/15 text-[color:var(--teal)]",
-};
+const publishedEcosystems = ecosystems.filter((e) => getCompaniesByEcosystem(e.slug).length > 0);
 
 function PlayersPage() {
-  const sectorList = useMemo(
-    () => ["همه", ...Array.from(new Set(players.map((p) => p.sector)))],
-    [],
-  );
-  const [active, setActive] = useState("همه");
+  const search = Route.useSearch();
+  const defaultEco = search.ecosystem ?? publishedEcosystems[0]?.slug ?? "gold";
+  const [activeEco, setActiveEco] = useState(defaultEco);
+  const [activeCategory, setActiveCategory] = useState<string>("all");
 
-  const visible = players.filter(
-    (p) => active === "همه" || p.sector === active,
+  const categories = useMemo(() => getCategoriesFor(activeEco), [activeEco]);
+  const companies = useMemo(() => getCompaniesByEcosystem(activeEco), [activeEco]);
+  const visible = useMemo(
+    () =>
+      activeCategory === "all"
+        ? companies
+        : companies.filter((c) => c.category === activeCategory),
+    [companies, activeCategory],
   );
+
+  function selectEcosystem(slug: string) {
+    setActiveEco(slug);
+    setActiveCategory("all");
+  }
 
   return (
     <>
       <section className="border-b border-border bg-secondary/40">
         <div className="mx-auto max-w-6xl px-5 py-14">
-          <p className="text-xs font-bold tracking-[0.2em] text-brand">
-            اطلس / بازیگران
-          </p>
+          <p className="text-xs font-bold tracking-[0.2em] text-brand">اطلس / بازیگران</p>
           <h1 className="mt-4 text-4xl font-black leading-tight sm:text-5xl">
-            بازیگران اقتصاد دیجیتال
+            بنگاه‌های اقتصاد دیجیتال
           </h1>
           <p className="mt-5 max-w-2xl text-sm leading-8 text-muted-foreground sm:text-base">
-            هر پروفایل شامل عرصهٔ فعالیت، مرحلهٔ رشد و یک شاخص عملکردی
-            راستی‌آزمایی‌شده است. فهرست را بر اساس عرصه فیلتر کنید.
+            فهرست را ابتدا بر اساس عرصه و سپس بر اساس دستهٔ فعالیت فیلتر کنید. عرصه‌هایی که هنوز
+            داده ندارند، در این فهرست ظاهر نمی‌شوند.
           </p>
 
           <div className="mt-8 flex flex-wrap gap-2">
-            {sectorList.map((s) => (
+            {ecosystems.map((eco) => {
+              const has = getCompaniesByEcosystem(eco.slug).length > 0;
+              return (
+                <button
+                  key={eco.slug}
+                  type="button"
+                  disabled={!has}
+                  onClick={() => selectEcosystem(eco.slug)}
+                  aria-pressed={activeEco === eco.slug}
+                  className={`rounded-full px-4 py-2 text-sm font-bold transition-colors ${
+                    activeEco === eco.slug
+                      ? "bg-gradient-brand text-primary-foreground"
+                      : has
+                        ? "border border-border bg-card text-muted-foreground hover:text-foreground"
+                        : "cursor-not-allowed border border-dashed border-border bg-transparent text-muted-foreground/50"
+                  }`}
+                >
+                  {eco.name}
+                  {!has && " · به‌زودی"}
+                </button>
+              );
+            })}
+          </div>
+
+          {categories.length > 0 && (
+            <div className="mt-4 flex flex-wrap gap-2">
               <button
-                key={s}
                 type="button"
-                onClick={() => setActive(s)}
-                aria-pressed={active === s}
-                className={`rounded-full px-4 py-2 text-sm font-bold transition-colors ${
-                  active === s
-                    ? "bg-gradient-brand text-primary-foreground"
-                    : "border border-border bg-card text-muted-foreground hover:text-foreground"
+                onClick={() => setActiveCategory("all")}
+                aria-pressed={activeCategory === "all"}
+                className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition-colors ${
+                  activeCategory === "all"
+                    ? "bg-ink text-ink-foreground"
+                    : "border border-border text-muted-foreground hover:text-foreground"
                 }`}
               >
-                {s}
+                همهٔ دسته‌ها
               </button>
-            ))}
-          </div>
+              {categories.map((cat) => (
+                <button
+                  key={cat.slug}
+                  type="button"
+                  onClick={() => setActiveCategory(cat.slug)}
+                  aria-pressed={activeCategory === cat.slug}
+                  className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition-colors ${
+                    activeCategory === cat.slug
+                      ? "bg-ink text-ink-foreground"
+                      : "border border-border text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  {cat.name}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
       <section className="mx-auto max-w-6xl px-5 py-16">
-        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {visible.map((p) => (
-            <article key={p.name} className="surface-card p-6">
-              <div className="flex items-start justify-between gap-3">
-                <span
-                  className={`grid size-12 place-items-center rounded-2xl text-lg font-black ${toneRing[p.tone]}`}
-                  aria-hidden="true"
-                >
-                  {p.initial}
-                </span>
+        {visible.length === 0 ? (
+          <p className="text-sm text-muted-foreground">بنگاهی در این دسته ثبت نشده است.</p>
+        ) : (
+          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+            {visible.map((c) => (
+              <Link
+                key={c.slug}
+                to="/companies/$slug"
+                params={{ slug: c.slug }}
+                className="surface-card block p-6"
+              >
                 <span className="rounded-full border border-border px-2.5 py-1 text-[11px] font-semibold text-muted-foreground">
-                  {p.stage}
+                  {categories.find((cat) => cat.slug === c.category)?.name ?? c.category}
                 </span>
-              </div>
-              <h2 className="mt-5 text-lg font-extrabold">{p.name}</h2>
-              <p className="text-xs font-semibold text-brand">{p.sector}</p>
-              <p className="mt-3 text-sm leading-7 text-muted-foreground">
-                {p.description}
-              </p>
-              <div className="mt-5 flex items-center justify-between border-t border-border pt-4 text-xs">
-                <span className="text-muted-foreground">{p.metricLabel}</span>
-                <span className="font-number font-bold">{p.metricValue}</span>
-              </div>
-            </article>
-          ))}
-        </div>
+                <h2 className="mt-5 text-lg font-extrabold">{c.name}</h2>
+                <p className="mt-3 text-sm leading-7 text-muted-foreground">{c.summary}</p>
+                <div className="mt-5 border-t border-border pt-4 text-xs text-muted-foreground">
+                  {c.domain}
+                </div>
+              </Link>
+            ))}
+          </div>
+        )}
       </section>
     </>
   );

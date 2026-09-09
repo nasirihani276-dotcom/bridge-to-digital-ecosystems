@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import polMark from "@/assets/pol-mark.png";
+import polMark from "@/assets/pol-mark.svg";
 import { cn } from "@/lib/utils";
 
 type LogoProps = {

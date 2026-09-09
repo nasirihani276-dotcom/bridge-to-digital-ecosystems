@@ -27,9 +27,16 @@ export type Database = {
           legal_form: string | null
           national_id: string | null
           notes: string | null
+          phone: string | null
+          postal_code: string | null
+          province_city: string | null
           registered_name: string | null
           registration_date: string | null
           registration_number: string | null
+          registration_unit: string | null
+          signatories: string | null
+          status: string | null
+          trade_name: string | null
           updated_at: string
         }
         Insert: {
@@ -44,9 +51,16 @@ export type Database = {
           legal_form?: string | null
           national_id?: string | null
           notes?: string | null
+          phone?: string | null
+          postal_code?: string | null
+          province_city?: string | null
           registered_name?: string | null
           registration_date?: string | null
           registration_number?: string | null
+          registration_unit?: string | null
+          signatories?: string | null
+          status?: string | null
+          trade_name?: string | null
           updated_at?: string
         }
         Update: {
@@ -61,9 +75,16 @@ export type Database = {
           legal_form?: string | null
           national_id?: string | null
           notes?: string | null
+          phone?: string | null
+          postal_code?: string | null
+          province_city?: string | null
           registered_name?: string | null
           registration_date?: string | null
           registration_number?: string | null
+          registration_unit?: string | null
+          signatories?: string | null
+          status?: string | null
+          trade_name?: string | null
           updated_at?: string
         }
         Relationships: []

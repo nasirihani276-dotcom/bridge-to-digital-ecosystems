@@ -11,9 +11,12 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
-import { Route as EcosystemsRouteImport } from './routes/ecosystems'
 import { Route as InsightsRouteImport } from './routes/insights'
 import { Route as PlayersRouteImport } from './routes/players'
+import { Route as EcosystemsIndexRouteImport } from './routes/ecosystems/index'
+import { Route as EcosystemsSlugRouteImport } from './routes/ecosystems/$slug'
+import { Route as AuthIndexRouteImport } from './routes/auth/index'
+import { Route as CompaniesSlugRouteImport } from './routes/companies/$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -23,11 +26,6 @@ const IndexRoute = IndexRouteImport.update({
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const EcosystemsRoute = EcosystemsRouteImport.update({
-  id: '/ecosystems',
-  path: '/ecosystems',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InsightsRoute = InsightsRouteImport.update({
@@ -40,43 +38,100 @@ const PlayersRoute = PlayersRouteImport.update({
   path: '/players',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EcosystemsIndexRoute = EcosystemsIndexRouteImport.update({
+  id: '/ecosystems',
+  path: '/ecosystems',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EcosystemsSlugRoute = EcosystemsSlugRouteImport.update({
+  id: '/ecosystems/$slug',
+  path: '/ecosystems/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthIndexRoute = AuthIndexRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CompaniesSlugRoute = CompaniesSlugRouteImport.update({
+  id: '/companies/$slug',
+  path: '/companies/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/ecosystems': typeof EcosystemsRoute
   '/insights': typeof InsightsRoute
   '/players': typeof PlayersRoute
+  '/ecosystems': typeof EcosystemsIndexRoute
+  '/ecosystems/$slug': typeof EcosystemsSlugRoute
+  '/auth': typeof AuthIndexRoute
+  '/companies/$slug': typeof CompaniesSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/ecosystems': typeof EcosystemsRoute
   '/insights': typeof InsightsRoute
   '/players': typeof PlayersRoute
+  '/ecosystems': typeof EcosystemsIndexRoute
+  '/ecosystems/$slug': typeof EcosystemsSlugRoute
+  '/auth': typeof AuthIndexRoute
+  '/companies/$slug': typeof CompaniesSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/ecosystems': typeof EcosystemsRoute
   '/insights': typeof InsightsRoute
   '/players': typeof PlayersRoute
+  '/ecosystems': typeof EcosystemsIndexRoute
+  '/ecosystems/$slug': typeof EcosystemsSlugRoute
+  '/auth': typeof AuthIndexRoute
+  '/companies/$slug': typeof CompaniesSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/ecosystems' | '/insights' | '/players'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/insights'
+    | '/players'
+    | '/ecosystems'
+    | '/ecosystems/$slug'
+    | '/auth'
+    | '/companies/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/ecosystems' | '/insights' | '/players'
-  id: '__root__' | '/' | '/about' | '/ecosystems' | '/insights' | '/players'
+  to:
+    | '/'
+    | '/about'
+    | '/insights'
+    | '/players'
+    | '/ecosystems'
+    | '/ecosystems/$slug'
+    | '/auth'
+    | '/companies/$slug'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/insights'
+    | '/players'
+    | '/ecosystems'
+    | '/ecosystems/$slug'
+    | '/auth'
+    | '/companies/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
-  EcosystemsRoute: typeof EcosystemsRoute
   InsightsRoute: typeof InsightsRoute
   PlayersRoute: typeof PlayersRoute
+  EcosystemsIndexRoute: typeof EcosystemsIndexRoute
+  EcosystemsSlugRoute: typeof EcosystemsSlugRoute
+  AuthIndexRoute: typeof AuthIndexRoute
+  CompaniesSlugRoute: typeof CompaniesSlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -95,13 +150,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/ecosystems': {
-      id: '/ecosystems'
-      path: '/ecosystems'
-      fullPath: '/ecosystems'
-      preLoaderRoute: typeof EcosystemsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/insights': {
       id: '/insights'
       path: '/insights'
@@ -116,15 +164,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlayersRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ecosystems': {
+      id: '/ecosystems'
+      path: '/ecosystems'
+      fullPath: '/ecosystems'
+      preLoaderRoute: typeof EcosystemsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ecosystems/$slug': {
+      id: '/ecosystems/$slug'
+      path: '/ecosystems/$slug'
+      fullPath: '/ecosystems/$slug'
+      preLoaderRoute: typeof EcosystemsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/companies/$slug': {
+      id: '/companies/$slug'
+      path: '/companies/$slug'
+      fullPath: '/companies/$slug'
+      preLoaderRoute: typeof CompaniesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
-  EcosystemsRoute: EcosystemsRoute,
   InsightsRoute: InsightsRoute,
   PlayersRoute: PlayersRoute,
+  EcosystemsIndexRoute: EcosystemsIndexRoute,
+  EcosystemsSlugRoute: EcosystemsSlugRoute,
+  AuthIndexRoute: AuthIndexRoute,
+  CompaniesSlugRoute: CompaniesSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
